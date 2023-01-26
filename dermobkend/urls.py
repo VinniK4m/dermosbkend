@@ -1,7 +1,9 @@
-from django.urls import path
-from .views import MedicoView
+from rest_framework import routers
+from .api import MedicoViewSet
 
-urlpatterns= [
-    path('medicos/', MedicoView.as_view(), name='medicos_list'),
-    path('medicos/<int:id>', MedicoView.as_view(), name='medicos_process')
-]
+router = routers.DefaultRouter()
+
+router.register('api/medicos', MedicoViewSet, 'dermosbk')
+
+urlpatterns = router.urls
+

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dermobkend.apps.DermobkendConfig',
-    'dermosbkend'
+    'dermosbkend',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
