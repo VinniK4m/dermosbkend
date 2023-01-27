@@ -26,27 +26,27 @@ class Medico(models.Model):
 
 
 class Paciente(models.Model):
-    nombres = models.TextField()
-    apellidos = models.TextField()
-    fecha_nacimiento = models.DateField()
-    lugar_nacimiento = models.TextField()
-    lugar_residencia = models.TextField()
-    numero_celular = models.IntegerField()
-    correo = models.TextField()
+    nombres = models.CharField(max_length=50)
+    apellidos = models.CharField(max_length=50)
+    fechaNacimiento = models.DateField()
+    lugarNacimiento = models.CharField(max_length=30)
+    lugarResidencia = models.CharField(max_length=30)
+    numeroCelular = models.IntegerField()
+    correo = models.CharField(max_length=100)
     clave = models.CharField(max_length=15)
 
     def __str__(self):
         return "{0} {1}".format(self.nombres, self.apellidos)
 
     class Meta:
-        verbose_name = 'Paciente'
+        verbose_name = 'Pacientes'
         verbose_name_plural = 'Pacientes'
         db_table = 'pacientes'
         ordering = ['apellidos', '-nombres']
 
 class EstadoCaso(Enum):
     CREADO = 'CREADO'
-    RESERVADO = 'RESERVADO'
+    RESERVADO = 'ENREVISION'
     SELECCIONADO = 'SELECCIONADO'
     LIBRE = 'LIBRE'
 
@@ -58,7 +58,7 @@ class CasoMedico(models.Model):
     medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
 
     class Meta:
-        verbose_name = 'CasoMedico'
+        verbose_name = 'CasoMedicos'
         verbose_name_plural = 'CasosMedicos'
         db_table = 'casosmedicos'
 
@@ -78,7 +78,7 @@ class Diagnostico(models.Model):
     fecha_acepta = models.DateField()
 
     class Meta:
-        verbose_name = 'Diagnostico'
+        verbose_name = 'Diagnosticos'
         verbose_name_plural = 'Diagnosticos'
         db_table = 'diagnosticos'
 
