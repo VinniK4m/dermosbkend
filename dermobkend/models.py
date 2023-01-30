@@ -13,15 +13,15 @@ class TiposIdentificacion(models.TextChoices):
     TARJETA_EXTRANJERIA = 'TE','TARJETA_EXTRANJERIA'
 
 class Medico(models.Model):
-    tipoIdentificacion = models.CharField(max_length=50,choices=TiposIdentificacion.choices, default=TiposIdentificacion.CEDULA_CIUDADANIA)
-    numeroIdentificacion = models.IntegerField()
+    tipo_identificacion = models.CharField(max_length=50,choices=TiposIdentificacion.choices, default=TiposIdentificacion.CEDULA_CIUDADANIA)
+    numero_identificacion = models.IntegerField()
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
-    fechaNacimiento = models.DateField()
-    lugarNacimiento = models.CharField(max_length=30)
-    lugarResidencia = models.CharField(max_length=30)
-    numeroCelular = models.CharField(max_length=30)
-    numeroRegistroProfesional = models.CharField(max_length=50)
+    fecha_nacimiento = models.DateField()
+    lugar_nacimiento = models.CharField(max_length=30)
+    lugar_residencia = models.CharField(max_length=30)
+    numero_celular = models.CharField(max_length=30)
+    numero_registro_profesional = models.CharField(max_length=50)
     correo = models.CharField(max_length=100)
     clave = models.CharField(max_length=15)
 
@@ -38,10 +38,10 @@ class Medico(models.Model):
 class Paciente(models.Model):
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
-    fechaNacimiento = models.DateField(null=True)
-    lugarNacimiento = models.CharField(max_length=30)
-    lugarResidencia = models.CharField(max_length=30)
-    numeroCelular = models.IntegerField(null=True)
+    fecha_nacimiento = models.DateField(null=True)
+    lugar_nacimiento = models.CharField(max_length=30)
+    lugar_residencia = models.CharField(max_length=30)
+    numero_celular = models.IntegerField(null=True)
     correo = models.CharField(max_length=100, null=True)
     clave = models.CharField(max_length=15, null=True)
 
