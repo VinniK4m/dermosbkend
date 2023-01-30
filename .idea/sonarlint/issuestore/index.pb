@@ -1,9 +1,6 @@
 
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-:
-
-.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 L
 dermobkend/tests/expected.py,f\b\fbd96db3bdc7912de69ef06913f7634a696294dc
 C
@@ -16,5 +13,3 @@ A
 dermobkend/api.py,b\5\b559369711ad661d55d829fcf215f1ff7d5dcd89
 I
 dermobkend/serializers.py,2\3\235ef1c1072faa8489578ad09f2bedc0e4c7aced
-@
-requirements.txt,1\9\19359a61ae2446b51b549167b014da2fcf265768
