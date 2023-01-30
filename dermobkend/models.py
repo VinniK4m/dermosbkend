@@ -5,13 +5,22 @@ from django.db import models
 from enum import Enum
 
 
+class TiposIdentificacion(models.TextChoices):
+    REGISTRO_CIVIL = 'RC', 'REGISTRO CIVIL'
+    TARJETA_IDENTIDAD = 'TI','TARJETA IDENTIDAD'
+    CEDULA_CIUDADANIA = 'CC','CEDULA CIUDADANIA'
+    PASAPORTE = 'PA', 'PASAPORTE'
+    TARJETA_EXTRANJERIA = 'TE','TARJETA_EXTRANJERIA'
+
 class Medico(models.Model):
+    tipoIdentificacion = models.CharField(max_length=50,choices=TiposIdentificacion.choices, default=TiposIdentificacion.CEDULA_CIUDADANIA)
+    numeroIdentificacion = models.IntegerField()
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
     fechaNacimiento = models.DateField()
     lugarNacimiento = models.CharField(max_length=30)
     lugarResidencia = models.CharField(max_length=30)
-    numeroCelular = models.IntegerField()
+    numeroCelular = models.CharField(max_length=30)
     numeroRegistroProfesional = models.CharField(max_length=50)
     correo = models.CharField(max_length=100)
     clave = models.CharField(max_length=15)
@@ -46,7 +55,7 @@ class Paciente(models.Model):
         ordering = ['apellidos', '-nombres']
 
 
-class EstadoCaso(Enum):
+class EstadoCaso(models.TextChoices):
     CREADO = 'CREADO'
     RESERVADO = 'ENREVISION'
     SELECCIONADO = 'SELECCIONADO'
@@ -55,7 +64,7 @@ class EstadoCaso(Enum):
 
 class CasoMedico(models.Model):
     descripcion = models.TextField()
-    fecha_creacion = models.DateField()
+    fechaCreacion = models.DateField()
     paciente = models.ForeignKey(Paciente, on_delete=models.PROTECT)
     estado = EstadoCaso
     medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
@@ -111,8 +120,7 @@ class Tratamiento(models.Model):
         verbose_name_plural = 'Tratamientos'
         db_table = 'tratamientos'
 
-
-class TipoSoporte(Enum):
+class TipoSoporte(models.TextChoices):
     PREGRADO = 'PREGRADO'
     ESPECIALIZACION = 'ESPECIALIZACION'
     CERTIFICACION = 'CERTIFICACION'
