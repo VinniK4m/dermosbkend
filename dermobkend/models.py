@@ -4,6 +4,7 @@ from django.db import models
 from django.db import models
 from enum import Enum
 
+
 class TiposIdentificacion(models.TextChoices):
     REGISTRO_CIVIL = 'RC', 'REGISTRO CIVIL'
     TARJETA_IDENTIDAD = 'TI','TARJETA IDENTIDAD'
@@ -37,12 +38,12 @@ class Medico(models.Model):
 class Paciente(models.Model):
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
-    fechaNacimiento = models.DateField()
+    fechaNacimiento = models.DateField(null=True)
     lugarNacimiento = models.CharField(max_length=30)
     lugarResidencia = models.CharField(max_length=30)
-    numeroCelular = models.IntegerField()
-    correo = models.CharField(max_length=100)
-    clave = models.CharField(max_length=15)
+    numeroCelular = models.IntegerField(null=True)
+    correo = models.CharField(max_length=100, null=True)
+    clave = models.CharField(max_length=15, null=True)
 
     def __str__(self):
         return "{0} {1}".format(self.nombres, self.apellidos)
@@ -60,6 +61,7 @@ class EstadoCaso(models.TextChoices):
     SELECCIONADO = 'SELECCIONADO'
     LIBRE = 'LIBRE'
 
+
 class CasoMedico(models.Model):
     descripcion = models.TextField()
     fechaCreacion = models.DateField()
@@ -72,12 +74,14 @@ class CasoMedico(models.Model):
         verbose_name_plural = 'CasosMedicos'
         db_table = 'casosmedicos'
 
+
 class HistoriaClinica(models.Model):
     nombre = models.CharField(max_length=50)
 
 
 class Interacciones(models.Model):
     nombre = models.CharField(max_length=50)
+
 
 class Diagnostico(models.Model):
     caso = models.ForeignKey(CasoMedico, on_delete=models.PROTECT)
@@ -92,6 +96,7 @@ class Diagnostico(models.Model):
         verbose_name_plural = 'Diagnosticos'
         db_table = 'diagnosticos'
 
+
 class ImagenDiagnostica(models.Model):
     caso = models.ForeignKey(CasoMedico, null=True, blank=True, on_delete=models.PROTECT)
     url = models.TextField()
@@ -102,6 +107,7 @@ class ImagenDiagnostica(models.Model):
         verbose_name = 'ImagenDiagnostica'
         verbose_name_plural = 'ImagenesDianosticas'
         db_table = 'imagenesdianosticas'
+
 
 class Tratamiento(models.Model):
     diagnostico = models.ForeignKey(Diagnostico, on_delete=models.PROTECT)
@@ -121,6 +127,7 @@ class TipoSoporte(models.TextChoices):
     SEMINARIO = 'SEMINARIO'
     DIPLOMADO = 'DIPLOMADO'
 
+
 class Soporte(models.Model):
     medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
     tipo_soporte = TipoSoporte
@@ -131,6 +138,3 @@ class Soporte(models.Model):
         verbose_name = 'Soportes'
         verbose_name_plural = 'Soportes'
         db_table = 'soportes'
-
-
-
