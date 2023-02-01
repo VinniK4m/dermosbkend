@@ -1,12 +1,21 @@
 from rest_framework import serializers
-from .models import Medico, Paciente
+from .models import Medico, Paciente, Especialidades, MedicoEspecialidad
+
+class EspecialidadesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Especialidades
+        fields = ('id','nombre','descripcion')
 
 class MedicoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Medico
         fields = ('id','tipo_identificacion','numero_identificacion','nombres', 'apellidos', 'fecha_nacimiento', 'lugar_nacimiento', 'lugar_residencia', 'numero_celular',
                   'numero_registro_profesional','correo' , 'clave')
-        read_only_fields = ('correo',)
+
+class MedicoEspecialidadesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MedicoEspecialidad
+        fields = ('medico','especialidad' )
 
 class PacienteSerializer(serializers.ModelSerializer):
     class Meta:
