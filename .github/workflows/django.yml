@@ -18,7 +18,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - run: 
-        python manage.py migrate
+        python manage.py makemigrations
+    - run: 
+        python manage.py migrate --run-syncdb
     - name: Run Tests
       run: |
         python manage.py test

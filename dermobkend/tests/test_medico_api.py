@@ -11,9 +11,9 @@ class MedicoModelTest(APITestCase):
     urlMedicos = 'http://127.0.0.1:8000/api/medicos/'
     def setUp(self) -> None:
         from dermobkend.models import Medico
-        self.medico = Medico.objects.create(nombres="Jor", apellidos="ge", tipoIdentificacion="TI", numeroIdentificacion=1155,
-                              fechaNacimiento="2023-01-11", lugarNacimiento="Bogota",
-                              lugarResidencia="Bogota", numeroCelular="31545", numeroRegistroProfesional="prof001",
+        self.medico = Medico.objects.create(nombres="Jor", apellidos="ge", tipo_identificacion="TI", numero_identificacion=1155,
+                              fecha_nacimiento="2023-01-11", lugar_nacimiento="Bogota",
+                              lugar_residencia="Bogota", numero_celular="31545", numero_registro_profesional="prof001",
                               correo=faker.email(),
                               clave="1234")
         medicos = Medico.objects.all()
@@ -33,15 +33,15 @@ class MedicoModelTest(APITestCase):
 
         response = self.client.post(self.urlMedicos,
                 {
-                    "tipoIdentificacion": "TI",
-                    "numeroIdentificacion": 1011093842,
+                    "tipo_identificacion": "TI",
+                    "numero_identificacion": 1011093842,
                     "nombres": "El",
                     "apellidos": "Lito",
-                    "fechaNacimiento": "2023-01-11",
-                    "lugarNacimiento": "Bogota",
-                    "lugarResidencia": "Bogota",
-                    "numeroCelular": "3152545454",
-                    "numeroRegistroProfesional": "asdasda",
+                    "fecha_nacimiento": "2023-01-11",
+                    "lugar_nacimiento": "Bogota",
+                    "lugar_residencia": "Bogota",
+                    "numero_celular": "3152545454",
+                    "numero_registro_profesional": "asdasda",
                     "correo": "elcorreo@yahoo.com",
                     "clave": "123456"
                 }
@@ -54,9 +54,9 @@ class MedicoModelTest(APITestCase):
                 {
                     "nombres": "Ellos",
                     "apellidos": "Lito",
-                    "lugarResidencia": "Cali",
-                    "numeroCelular": "3152545454",
-                    "numeroRegistroProfesional": "asdasda",
+                    "lugar_residencia": "Cali",
+                    "numero_celular": "3152545454",
+                    "numero_registro_profesional": "asdasda",
                     "correo": "elcorreo@yahoo.com",
                 }
                 )

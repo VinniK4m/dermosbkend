@@ -32,9 +32,9 @@ class MedicoView(View):
 
     def post(self, request):
         dataJson = json.loads(request.body)
-        Medico.objects.create(nombres=dataJson['nombres'],apellidos=dataJson['apellidos'], fechaNacimiento=dataJson['fechaNacimiento'],
-                              lugarResidencia=dataJson['lugarResidencia'],lugarNacimiento=dataJson['lugarNacimiento'],
-                              numeroCelular=dataJson['numeroCelular'],numeroRegistroProfesional=dataJson['numeroRegistroProfesional'],
+        Medico.objects.create(nombres=dataJson['nombres'],apellidos=dataJson['apellidos'], fechaNacimiento=dataJson['fecha_nacimiento'],
+                              lugarResidencia=dataJson['lugar_residencia'],lugarNacimiento=dataJson['lugar_nacimiento'],
+                              numeroCelular=dataJson['numero_celular'],numeroRegistroProfesional=dataJson['numero_registro_profesional'],
                               correo=dataJson['correo'],clave=dataJson['clave'])
 
         datos = {'message': "Success"}
