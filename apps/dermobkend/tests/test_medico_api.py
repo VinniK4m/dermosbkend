@@ -10,7 +10,7 @@ faker = Faker()
 class MedicoModelTest(APITestCase):
     urlMedicos = 'http://127.0.0.1:8000/api/medicos/'
     def setUp(self) -> None:
-        from dermobkend.models import Medico
+        from apps.dermobkend.models import Medico
         self.medico = Medico.objects.create(nombres="Jor", apellidos="ge", tipo_identificacion="TI", numero_identificacion=1155,
                               fecha_nacimiento="2023-01-11", lugar_nacimiento="Bogota",
                               lugar_residencia="Bogota", numero_celular="31545", numero_registro_profesional="prof001",

@@ -1,5 +1,5 @@
 import factory
-from dermobkend.models import Paciente
+from apps.dermobkend.models import Paciente
 
 
 class PacienteFactory(factory.django.DjangoModelFactory):

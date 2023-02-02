@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from dermobkend.models import Medico
+from apps.dermobkend.models import Medico
 from faker import Faker
 
 faker = Faker()
