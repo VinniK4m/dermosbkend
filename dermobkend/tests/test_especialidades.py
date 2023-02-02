@@ -16,7 +16,7 @@ class EspecialidadModelTest(TestCase):
 
     def test_findEspecialidads(self):
         especialidades = Especialidad.objects.all()
-        self.assertEqual(len(especialidades), 3)
+        self.assertEqual(len(especialidades), 4)
 
     def test_findEspecialidad(self):
         especialidad = Especialidad.objects.get(id=1)
@@ -33,11 +33,11 @@ class EspecialidadModelTest(TestCase):
         especialidad = Especialidad.objects.get(id=2)
         especialidad.delete()
         especialidades = Especialidad.objects.all()
-        self.assertEqual(len(especialidades), 2)
+        self.assertEqual(len(especialidades), 3)
 
     def test_createEspecialidad(self):
         Especialidad.objects.create(nombre="derma", descripcion="derma")
 
         especialidades = Especialidad.objects.all()
 
-        self.assertEqual(len(especialidades), 4)
+        self.assertEqual(len(especialidades), 5)

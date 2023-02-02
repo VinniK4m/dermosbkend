@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import Medico, Paciente, Especialidades, MedicoEspecialidad
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad
 
 class EspecialidadesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Especialidades
+        model = Especialidad
         fields = ('id','nombre','descripcion')
 
 class MedicoSerializer(serializers.ModelSerializer):

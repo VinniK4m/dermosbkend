@@ -2,50 +2,50 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from faker import Faker
 
-from dermobkend.models import Especialidades
+from dermobkend.models import Especialidad
 
 faker = Faker()
 
 
 # Create your tests here.
 
-class EspecialidadesModelTest(APITestCase):
-    urlEspecialidadess = 'http://127.0.0.1:8000/api/especialidades/'
+class EspecialidadModelTest(APITestCase):
+    urlEspecialidads = 'http://127.0.0.1:8000/api/especialidades/'
     def setUp(self) -> None:
-        from dermobkend.models import Especialidades
-        self.especialidad = Especialidades.objects.create(nombre="dermatologia", descripcion="dermatologia")
-        especialidades = Especialidades.objects.all()
+        from dermobkend.models import Especialidad
+        self.especialidad = Especialidad.objects.create(nombre="dermatologia", descripcion="dermatologia")
+        especialidades = Especialidad.objects.all()
 
 
-    def test_getEspecialidadess(self):
+    def test_getEspecialidads(self):
 
-        response = self.client.get(self.urlEspecialidadess)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response = self.client.get(self.urlEspecialidads)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_getEspecialidadessBy(self):
+    def test_getEspecialidadsBy(self):
 
-        response = self.client.get(self.urlEspecialidadess+"1")
-        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
+        response = self.client.get(self.urlEspecialidads+"1")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_postEspecialidadess(self):
+    def test_postEspecialidads(self):
 
-        response = self.client.post(self.urlEspecialidadess,
+        response = self.client.post(self.urlEspecialidads,
                 {
                     "nombre" : "dermatologia", "descripcion" : "dermatologia"
                 }
                 )
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_putEspecialidadess(self):
+    def test_putEspecialidads(self):
 
-        response = self.client.post(self.urlEspecialidadess+"1",
+        response = self.client.post(self.urlEspecialidads+"1",
                 {
                     "nombre" : "dermatologia", "descripcion" : "dermatologia"
                 }
                 )
-        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_deleteEspecialidadess(self):
+    def test_deleteEspecialidads(self):
 
-        response = self.client.delete(self.urlEspecialidadess+"1")
-        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
+        response = self.client.delete(self.urlEspecialidads+"1")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

@@ -1,4 +1,4 @@
-from .models import Medico, Paciente, Especialidades, MedicoEspecialidad
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad
 from rest_framework import viewsets, permissions
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer
 
@@ -9,7 +9,7 @@ class MedicoViewSet(viewsets.ModelViewSet):
     serializer_class = MedicoSerializer
 
 class EspecialidadesViewSet(viewsets.ModelViewSet):
-    queryset = Especialidades.objects.all()
+    queryset = Especialidad.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = EspecialidadesSerializer
 

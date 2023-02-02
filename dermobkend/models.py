@@ -12,7 +12,7 @@ class TiposIdentificacion(models.TextChoices):
     PASAPORTE = 'PA', 'PASAPORTE'
     TARJETA_EXTRANJERIA = 'TE','TARJETA_EXTRANJERIA'
 
-class Especialidades(models.Model):
+class Especialidad(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=100, default= '', null=True)
     def __str__(self):
@@ -47,7 +47,7 @@ class Medico(models.Model):
 
 class MedicoEspecialidad(models.Model):
     medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
-    especialidad = models.ForeignKey(Especialidades, on_delete=models.PROTECT)
+    especialidad = models.ForeignKey(Especialidad, on_delete=models.PROTECT)
 
 class Paciente(models.Model):
     nombres = models.CharField(max_length=50)
