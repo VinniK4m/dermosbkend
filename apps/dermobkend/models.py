@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.db import models
 
 # Create your models here.
@@ -17,7 +19,7 @@ class Medico(models.Model):
     numero_identificacion = models.IntegerField()
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
-    fecha_nacimiento = models.DateField()
+    fecha_nacimiento = models.DateField(null=True)
     lugar_nacimiento = models.CharField(max_length=30)
     lugar_residencia = models.CharField(max_length=30)
     numero_celular = models.CharField(max_length=30)
@@ -64,10 +66,10 @@ class EstadoCaso(models.TextChoices):
 
 class CasoMedico(models.Model):
     descripcion = models.TextField()
-    fechaCreacion = models.DateField()
-    paciente = models.ForeignKey(Paciente, on_delete=models.PROTECT)
+    fecha_creacion = models.DateTimeField(default=timezone.now)
+    paciente = models.ForeignKey(Paciente, on_delete=models.PROTECT, null=True)
     estado = EstadoCaso
-    medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
+    medico = models.ForeignKey(Medico, on_delete=models.PROTECT, null=True)
 
     class Meta:
         verbose_name = 'CasoMedicos'
