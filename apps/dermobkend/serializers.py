@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises
+
 
 class EspecialidadesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,3 +24,5 @@ class PacienteSerializer(serializers.ModelSerializer):
         fields = (
         'id', 'nombres', 'apellidos', 'lugarNacimiento', 'lugarResidencia', 'numeroCelular',
         'correo', 'clave')
+
+
