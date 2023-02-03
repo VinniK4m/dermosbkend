@@ -12,6 +12,17 @@ class TiposIdentificacion(models.TextChoices):
     PASAPORTE = 'PA', 'PASAPORTE'
     TARJETA_EXTRANJERIA = 'TE','TARJETA_EXTRANJERIA'
 
+class Especialidad(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100, default= '', null=True)
+    def __str__(self):
+        return "{0}".format(self.nombre)
+
+    class Meta:
+        verbose_name = 'Especialidades'
+        verbose_name_plural = 'Especialidades'
+        db_table = 'especialidades'
+
 class Medico(models.Model):
     tipo_identificacion = models.CharField(max_length=50,choices=TiposIdentificacion.choices, default=TiposIdentificacion.CEDULA_CIUDADANIA)
     numero_identificacion = models.IntegerField()
@@ -34,6 +45,9 @@ class Medico(models.Model):
         db_table = 'medicos'
         ordering = ['apellidos', '-nombres']
 
+class MedicoEspecialidad(models.Model):
+    medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
+    especialidad = models.ForeignKey(Especialidad, on_delete=models.PROTECT)
 
 class Paciente(models.Model):
     nombres = models.CharField(max_length=50)
