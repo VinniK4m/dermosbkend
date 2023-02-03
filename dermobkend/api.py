@@ -2,9 +2,10 @@ from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer
+
 
 #class MedicoList(generics.ListCreateAPIView):
 #    queryset = Medico.objects.all()
@@ -87,4 +88,3 @@ class PacienteViewSet(viewsets.ModelViewSet):
     queryset = Paciente.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = PacienteSerializer
-
