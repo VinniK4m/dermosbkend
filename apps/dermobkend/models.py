@@ -1,10 +1,8 @@
 from django.utils import timezone
-
-from django.db import models
-
 # Create your models here.
 from django.db import models
 from enum import Enum
+
 
 class Paises(models.TextChoices):
     AFG = 'AFG', 'Afganistán'
@@ -259,34 +257,26 @@ class Paises(models.TextChoices):
 
 class Sexo(models.TextChoices):
     HOMBRE = 'HOMBRE', 'HOMBRE'
-    MUJER = 'MUJER','MUJER'
+    MUJER = 'MUJER', 'MUJER'
+
 
 class TiposIdentificacion(models.TextChoices):
     REGISTRO_CIVIL = 'RC', 'REGISTRO CIVIL'
-    TARJETA_IDENTIDAD = 'TI','TARJETA IDENTIDAD'
-    CEDULA_CIUDADANIA = 'CC','CEDULA CIUDADANIA'
+    TARJETA_IDENTIDAD = 'TI', 'TARJETA IDENTIDAD'
+    CEDULA_CIUDADANIA = 'CC', 'CEDULA CIUDADANIA'
     PASAPORTE = 'PA', 'PASAPORTE'
-    TARJETA_EXTRANJERIA = 'TE','TARJETA_EXTRANJERIA'
+    TARJETA_EXTRANJERIA = 'TE', 'TARJETA_EXTRANJERIA'
 
-class Especialidad(models.Model):
-    nombre = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=100, default= '', null=True)
-    def __str__(self):
-        return "{0}".format(self.nombre)
-
-    class Meta:
-        verbose_name = 'Especialidades'
-        verbose_name_plural = 'Especialidades'
-        db_table = 'especialidades'
 
 class Medico(models.Model):
-    tipo_identificacion = models.CharField(max_length=50,choices=TiposIdentificacion.choices, default=TiposIdentificacion.CEDULA_CIUDADANIA)
+    tipo_identificacion = models.CharField(max_length=50, choices=TiposIdentificacion.choices,
+                                           default=TiposIdentificacion.CEDULA_CIUDADANIA)
     numero_identificacion = models.IntegerField()
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
     fecha_nacimiento = models.DateField()
-    sexo = models.CharField(max_length=20,choices=Sexo.choices, null=True)
-    lugar_nacimiento = models.CharField(max_length=50,choices=Paises.choices, default=Paises.COL)
+    sexo = models.CharField(max_length=20, choices=Sexo.choices, null=True)
+    lugar_nacimiento = models.CharField(max_length=50, choices=Paises.choices, default=Paises.COL)
     lugar_residencia = models.CharField(max_length=30)
     numero_celular = models.CharField(max_length=30)
     numero_registro_profesional = models.CharField(max_length=50)
@@ -302,9 +292,24 @@ class Medico(models.Model):
         db_table = 'medicos'
         ordering = ['apellidos', '-nombres']
 
+
+class Especialidad(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100, default='', null=True)
+
+    def __str__(self):
+        return "{0}".format(self.nombre)
+
+    class Meta:
+        verbose_name = 'Especialidades'
+        verbose_name_plural = 'Especialidades'
+        db_table = 'especialidades'
+
+
 class MedicoEspecialidad(models.Model):
     medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
     especialidad = models.ForeignKey(Especialidad, on_delete=models.PROTECT)
+
 
 class Paciente(models.Model):
     nombres = models.CharField(max_length=50)
@@ -390,6 +395,7 @@ class Tratamiento(models.Model):
         verbose_name = 'Tratamientos'
         verbose_name_plural = 'Tratamientos'
         db_table = 'tratamientos'
+
 
 class TipoSoporte(models.TextChoices):
     PREGRADO = 'PREGRADO'

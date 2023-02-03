@@ -5,6 +5,7 @@ from faker import Faker
 
 faker = Faker()
 
+
 # Create your tests here.
 
 class MedicoModelTest(TestCase):

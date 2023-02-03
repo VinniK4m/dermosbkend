@@ -53,6 +53,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "apps.dermobkend.apps.DermobkendConfig",
+    "apps.caso_medico.apps.CasosMedicosConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

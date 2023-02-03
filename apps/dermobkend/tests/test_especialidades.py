@@ -1,9 +1,10 @@
 from django.test import TestCase
-
-from dermobkend.models import Especialidad
+from rest_framework.test import APIClient
+from apps.dermobkend.models import Especialidad
 from faker import Faker
 
 faker = Faker()
+
 
 # Create your tests here.
 
@@ -13,6 +14,10 @@ class EspecialidadModelTest(TestCase):
         Especialidad.objects.create(nombre="dermatologia adultos", descripcion="dermatologia")
         Especialidad.objects.create(nombre="cancer de piel", descripcion="dermatologia")
         Especialidad.objects.create(nombre="otra", descripcion="dermatologia")
+        client: APIClient = APIClient()
+
+    def test_get_especialida(self):
+        self.client.get('/especialidad/')
 
     def test_findEspecialidads(self):
         especialidades = Especialidad.objects.all()

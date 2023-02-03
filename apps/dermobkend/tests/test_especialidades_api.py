@@ -2,7 +2,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from faker import Faker
 
-from dermobkend.models import Especialidad
+from apps.dermobkend.models import Especialidad
 
 faker = Faker()
 
@@ -10,9 +10,8 @@ faker = Faker()
 # Create your tests here.
 
 class EspecialidadModelTest(APITestCase):
-    urlEspecialidads = 'http://127.0.0.1:8000/api/especialidades/'
+    urlEspecialidads = 'http://127.0.0.1:8000/api/v1/especialidades/'
     def setUp(self) -> None:
-        from dermobkend.models import Especialidad
         self.especialidad = Especialidad.objects.create(nombre="dermatologia", descripcion="dermatologia")
         especialidades = Especialidad.objects.all()
 
