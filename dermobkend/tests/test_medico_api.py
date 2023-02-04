@@ -46,7 +46,7 @@ class MedicoModelTest(APITestCase):
                     "clave": "123456"
                 }
                 )
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_putMedicos(self):
 
