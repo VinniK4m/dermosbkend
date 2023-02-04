@@ -340,15 +340,16 @@ class EstadoCaso(models.TextChoices):
 
 class CasoMedico(models.Model):
     descripcion = models.TextField()
-    fecha_creacion = models.DateTimeField(default=timezone.now)
-    paciente = models.ForeignKey(Paciente, on_delete=models.PROTECT, null=True)
-    estado = EstadoCaso
-    medico = models.ForeignKey(Medico, on_delete=models.PROTECT, null=True)
+    fecha_creacion = models.DateField()
+    paciente = models.ForeignKey(Paciente, related_name="casos_medicos", on_delete=models.CASCADE)
+    medico = models.ForeignKey(Medico, related_name="casos_medicos", on_delete=models.CASCADE, null=True)
+    estado = models.CharField(max_length=50, choices=EstadoCaso.choices)
 
     class Meta:
-        verbose_name = 'CasoMedicos'
-        verbose_name_plural = 'CasosMedicos'
         db_table = 'casosmedicos'
+
+    def __str__(self):
+        return '%s: %s' % (self.estado, self.descripcion)
 
 
 class HistoriaClinica(models.Model):

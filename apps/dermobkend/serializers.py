@@ -8,21 +8,27 @@ class EspecialidadesSerializer(serializers.ModelSerializer):
         fields = ('id','nombre','descripcion')
 
 class MedicoSerializer(serializers.ModelSerializer):
+    casos_medicos = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Medico
         fields = ('id','tipo_identificacion','numero_identificacion','nombres', 'apellidos', 'lugar_nacimiento', 'lugar_residencia', 'numero_celular',
-                  'numero_registro_profesional','correo' , 'clave')
+                  'numero_registro_profesional','correo' , 'clave', 'fecha_nacimiento', "casos_medicos")
+        depth = 1
 
 class MedicoEspecialidadesSerializer(serializers.ModelSerializer):
     class Meta:
         model = MedicoEspecialidad
         fields = ('medico','especialidad' )
 
+
 class PacienteSerializer(serializers.ModelSerializer):
+    casos_medicos = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Paciente
         fields = (
-        'id', 'nombres', 'apellidos', 'lugarNacimiento', 'lugarResidencia', 'numeroCelular',
-        'correo', 'clave')
-
+        'id', 'nombres', 'apellidos', 'lugar_nacimiento', 'lugar_residencia', 'numero_celular',
+        'correo', 'clave', "casos_medicos")
+        depth = 1
 
