@@ -10,7 +10,7 @@ class EspecialidadesSerializer(serializers.ModelSerializer):
 class MedicoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Medico
-        fields = ('id','tipo_identificacion','numero_identificacion','nombres', 'apellidos', 'fecha_nacimiento', 'lugar_nacimiento', 'lugar_residencia','sexo', 'numero_celular',
+        fields = ('id','tipo_identificacion','numero_identificacion','nombres', 'apellidos', 'lugar_nacimiento', 'lugar_residencia', 'numero_celular',
                   'numero_registro_profesional','correo' , 'clave')
 
 class MedicoEspecialidadesSerializer(serializers.ModelSerializer):
@@ -22,7 +22,7 @@ class PacienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paciente
         fields = (
-        'id', 'nombres', 'apellidos', 'fechaNacimiento', 'lugarNacimiento', 'lugarResidencia', 'numeroCelular',
+        'id', 'nombres', 'apellidos', 'lugarNacimiento', 'lugarResidencia', 'numeroCelular',
         'correo', 'clave')
 
 
