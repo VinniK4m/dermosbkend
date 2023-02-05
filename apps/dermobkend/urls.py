@@ -8,5 +8,7 @@ router.register('especialiades', EspecialidadesViewSet, 'dermosbk')
 router.register('medicosespecialidad', MedicoEspecialidadViewSet, 'dermosbk')
 router.register('pacientes', PacienteViewSet, 'dermosbk')
 
+
+
 urlpatterns = router.urls
 

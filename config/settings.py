@@ -30,7 +30,6 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
-
 # Application definition
 
 DJANGO_APPS = [
@@ -74,6 +73,11 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8000',
 )
 
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:4200',
+    'http://localhost:8000'
+)
+
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
@@ -94,7 +98,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
