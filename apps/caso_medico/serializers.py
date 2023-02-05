@@ -8,4 +8,5 @@ from apps.dermobkend.models import CasoMedico
 class CasoMedicoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CasoMedico
-        fields = ('descripcion',)
+        fields = ('id', 'descripcion', 'estado', 'fecha_creacion', 'paciente', 'medico')
+        depth = 1
