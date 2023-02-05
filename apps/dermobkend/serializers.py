@@ -30,6 +30,6 @@ class PacienteSerializer(serializers.ModelSerializer):
         model = Paciente
         fields = (
         'id', 'nombres', 'apellidos', 'lugar_nacimiento', 'lugar_residencia', 'numero_celular',
-        'correo', 'clave', "casos_medicos")
+        'correo', 'clave', "casos_medicos", 'edad', 'sexo')
         depth = 1
 
