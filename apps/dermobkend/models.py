@@ -321,7 +321,7 @@ class Paciente(models.Model):
     correo = models.CharField(max_length=100, null=True)
     clave = models.CharField(max_length=15, null=True)
     edad = models.CharField(max_length=30, null=True)
-    sexo = models.CharField(max_length=30, null=True)
+    sexo = models.CharField(max_length=20, choices=Sexo.choices, null=True)
 
     def __str__(self):
         return "{0} {1}".format(self.nombres, self.apellidos)
