@@ -316,6 +316,8 @@ class Paciente(models.Model):
     apellidos = models.CharField(max_length=50)
     fecha_nacimiento = models.DateField(null=True)
     lugar_nacimiento = models.CharField(max_length=30)
+    edad = models.CharField(max_length=30, null=True)
+    sexo = models.CharField(max_length=30, null=True)
     lugar_residencia = models.CharField(max_length=30)
     numero_celular = models.IntegerField(null=True)
     correo = models.CharField(max_length=100, null=True)
@@ -364,8 +366,6 @@ class Diagnostico(models.Model):
     caso = models.ForeignKey(CasoMedico, on_delete=models.PROTECT)
     fecha_diagnostico = models.DateField()
     descripcion = models.TextField()
-    medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
-    aceptado = models.BooleanField()
     fecha_acepta = models.DateField()
 
     class Meta:

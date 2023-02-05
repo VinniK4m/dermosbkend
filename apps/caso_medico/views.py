@@ -5,8 +5,10 @@ from rest_framework.decorators import action
 from apps.caso_medico.serializers import CasoMedicoSerializer
 from apps.dermobkend.models import CasoMedico, Paciente, Medico
 
-
 # Create your views here.
+from apps.dermobkend.serializers import DiagnosticoSerializer
+
+
 class CasosMedicosPacienteViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = CasoMedicoSerializer
@@ -41,7 +43,7 @@ class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
     queryset = CasoMedico.objects.all()
 
     def get_queryset(self):
-        return CasoMedico.objects.filter(paciente=self.kwargs.get('medico_id'))
+        return CasoMedico.objects.filter(medico=self.kwargs.get('medico_id'))
 
     def list(self, request, *args, **kwargs):
         query_set = CasoMedico.objects.filter(medico=self.kwargs.get('medico_id'))
@@ -61,3 +63,13 @@ class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(data=request_data)
         return 'asd'
 
+    @action(detail=True, methods=['post'])
+    def diagnosticar(self, request):
+        caso = self.get_queryset(self)
+        diagnostico_serializer = DiagnosticoSerializer(data=request.data)
+        if diagnostico_serializer.is_valid():
+            caso.save()
+            return Response({'status': 'diagnosticando'})
+        else:
+            return Response(diagnostico_serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
