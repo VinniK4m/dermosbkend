@@ -274,7 +274,7 @@ class Medico(models.Model):
     numero_identificacion = models.IntegerField()
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
-    fecha_nacimiento = models.DateField()
+    fecha_nacimiento = models.DateField(null=True)
     sexo = models.CharField(max_length=20, choices=Sexo.choices, null=True)
     lugar_nacimiento = models.CharField(max_length=50, choices=Paises.choices, default=Paises.COL)
     lugar_residencia = models.CharField(max_length=30)
