@@ -2,7 +2,7 @@ from rest_framework import permissions, viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from apps.caso_medico.serializers import CasoMedicoSerializer
+from apps.caso_medico.serializers import CasoMedicoSerializer, DiagnosticoSerializer
 from apps.dermobkend.models import CasoMedico, Paciente, Medico
 
 
@@ -41,7 +41,7 @@ class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
     queryset = CasoMedico.objects.all()
 
     def get_queryset(self):
-        return CasoMedico.objects.filter(paciente=self.kwargs.get('medico_id'))
+        return CasoMedico.objects.filter(medico=self.kwargs.get('medico_id'))
 
     def list(self, request, *args, **kwargs):
         query_set = CasoMedico.objects.filter(medico=self.kwargs.get('medico_id'))
@@ -51,13 +51,15 @@ class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['put'], name='Reclaim case')
-    def reclaim(self, request, pk=None):
-        """Update the user's password."""
-        request_data = request.data.copy()
-        medico = Medico.objects.filter(id=self.kwargs.get('medico_id')).get()
-        caso = CasoMedico.objects.filter(id=self.kwargs.get('caso_id')).get()
-        casos_medicos = CasoMedico.objects.filter(medico_id__isnull=True)
-        serializer = self.serializer_class(data=request_data)
-        return 'asd'
+    @action(detail=True, methods=['post'], name='Diagnosticar caso')
+    def diagnosticar(self, request, *args, **kwargs):
+        object = self.get_object()
+        serializer = DiagnosticoSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 

@@ -342,7 +342,7 @@ class CasoMedico(models.Model):
     descripcion = models.TextField()
     fecha_creacion = models.DateField()
     paciente = models.ForeignKey(Paciente, related_name="casos_medicos", on_delete=models.CASCADE)
-    medico = models.ForeignKey(Medico, related_name="casos_medicos", on_delete=models.CASCADE, null=True)
+    medico = models.ForeignKey(Medico, related_name="casos_medicos_medico", on_delete=models.CASCADE, null=True)
     estado = models.CharField(max_length=50, choices=EstadoCaso.choices)
 
     class Meta:
@@ -361,7 +361,7 @@ class Interacciones(models.Model):
 
 
 class Diagnostico(models.Model):
-    caso = models.ForeignKey(CasoMedico, on_delete=models.PROTECT)
+    caso = models.ForeignKey(CasoMedico, related_name="diagnosticos", on_delete=models.PROTECT)
     fecha_diagnostico = models.DateField()
     descripcion = models.TextField()
     medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
@@ -372,6 +372,9 @@ class Diagnostico(models.Model):
         verbose_name = 'Diagnosticos'
         verbose_name_plural = 'Diagnosticos'
         db_table = 'diagnosticos'
+
+    def __str__(self):
+        return '%s: %s' % (self.fecha_acepta, self.descripcion)
 
 
 class ImagenDiagnostica(models.Model):
