@@ -17,6 +17,14 @@ class MedicoSerializer(serializers.ModelSerializer):
                   'numero_registro_profesional','correo' , 'clave', 'fecha_nacimiento', "casos_medicos_medico")
         depth = 1
 
+    def __init__(self, *args, **kwargs):
+        super(MedicoSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request and request.method == 'POST':
+            self.Meta.depth = 0
+        else:
+            self.Meta.depth = 1
+
 
 class MedicoEspecialidadesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,7 +40,14 @@ class PacienteSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'nombres', 'apellidos', 'lugar_nacimiento', 'fecha_nacimiento', 'lugar_residencia', 'edad',
             'sexo','numero_celular', 'correo', 'clave', "casos_medicos")
-        depth = 1
+
+    def __init__(self, *args, **kwargs):
+        super(PacienteSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request and request.method == 'POST':
+            self.Meta.depth = 0
+        else:
+            self.Meta.depth = 1
 
 
 class DiagnosticoSerializer(serializers.ModelSerializer):
