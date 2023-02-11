@@ -62,11 +62,8 @@ class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-
     @action(detail=True, methods=['post'])
-    def diagnosticar(self, request):
+    def reclamar(self, request):
         caso = self.get_queryset(self)
         diagnostico_serializer = DiagnosticoSerializer(data=request.data)
         if diagnostico_serializer.is_valid():
