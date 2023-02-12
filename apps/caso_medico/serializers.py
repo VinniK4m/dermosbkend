@@ -35,4 +35,3 @@ class DiagnosticoSerializer(serializers.ModelSerializer):
             self.Meta.depth = 0
         else:
             self.Meta.depth = 1
-

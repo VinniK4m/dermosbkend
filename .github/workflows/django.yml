@@ -21,9 +21,7 @@ jobs:
         python manage.py migrate
     - name: Run Tests
       run: |
-        python manage.py test
+        coverage run manage.py test
+        coverage report
     - name: Upload to code coverage
-      uses: codecov/codecov-action@v1.2.2
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        file: coverage/lcov.info
+      uses: codecov/codecov-action@v3
