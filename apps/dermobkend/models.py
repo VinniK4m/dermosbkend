@@ -335,9 +335,9 @@ class Paciente(models.Model):
 
 class EstadoCaso(models.TextChoices):
     CREADO = 'CREADO'
-    RESERVADO = 'ENREVISION'
-    SELECCIONADO = 'SELECCIONADO'
-    LIBRE = 'LIBRE'
+    REVISION = 'EREVISION'
+    SELECCIONADO = 'RECLAMADO'
+    DIAGNOSTICADO = 'DIAGNOSTICADO'
 
 
 class CasoMedico(models.Model):
