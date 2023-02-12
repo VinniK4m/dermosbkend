@@ -40,6 +40,7 @@ class PacienteSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'nombres', 'apellidos', 'lugar_nacimiento', 'fecha_nacimiento', 'lugar_residencia', 'edad',
             'sexo','numero_celular', 'correo', 'clave', "casos_medicos")
+        depth = 1
 
     def __init__(self, *args, **kwargs):
         super(PacienteSerializer, self).__init__(*args, **kwargs)
