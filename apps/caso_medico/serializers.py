@@ -36,17 +36,3 @@ class DiagnosticoSerializer(serializers.ModelSerializer):
         else:
             self.Meta.depth = 1
 
-
-class ReclamarSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CasoMedico
-        fields = ('id', 'medico')
-        depth = 1
-
-    def __init__(self, *args, **kwargs):
-        super(ReclamarSerializer, self).__init__(*args, **kwargs)
-        request = self.context.get('request')
-        if request and request.method == 'POST':
-            self.Meta.depth = 0
-        else:
-            self.Meta.depth = 1
