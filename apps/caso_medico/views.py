@@ -2,7 +2,7 @@ from rest_framework import permissions, viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from apps.caso_medico.serializers import CasoMedicoSerializer, DiagnosticoSerializer, ReclamarSerializer
+from apps.caso_medico.serializers import CasoMedicoSerializer, DiagnosticoSerializer
 from apps.dermobkend.models import CasoMedico, Paciente, Medico
 
 # Create your views here.
@@ -61,8 +61,8 @@ class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
 
 class CasosMedicosViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
-    serializer_class = ReclamarSerializer
-    queryset = CasoMedico.objects.all()
+    serializer_class = CasoMedicoSerializer
+    queryset = CasoMedico.objects.filter(medico__isnull=True)
 
     def list(self, request, *args, **kwargs):
         query_set = CasoMedico.objects.filter(medico__isnull=True)
@@ -78,6 +78,7 @@ class CasosMedicosViewSet(viewsets.ModelViewSet):
         data = request.data
         medico = Medico.objects.filter(id=data.get('medico')).first()
         instance.medico = medico
+        instance.estado = 'RECLAMADO'
         instance.save()
         serializer = CasoMedicoSerializer(instance)
         if serializer:
