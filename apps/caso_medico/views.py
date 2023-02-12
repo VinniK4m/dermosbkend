@@ -2,7 +2,7 @@ from rest_framework import permissions, viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from apps.caso_medico.serializers import CasoMedicoSerializer, DiagnosticoSerializer
+from apps.caso_medico.serializers import CasoMedicoSerializer, DiagnosticoSerializer, ReclamarSerializer
 from apps.dermobkend.models import CasoMedico, Paciente, Medico
 
 # Create your views here.
@@ -42,9 +42,6 @@ class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
     serializer_class = CasoMedicoSerializer
     queryset = CasoMedico.objects.all()
 
-    def get_queryset(self):
-        return CasoMedico.objects.filter(medico=self.kwargs.get('medico_id'))
-
     def list(self, request, *args, **kwargs):
         query_set = CasoMedico.objects.filter(medico=self.kwargs.get('medico_id'))
         return Response(self.serializer_class(query_set, many=True).data)
@@ -55,7 +52,6 @@ class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'], name='Diagnosticar caso')
     def diagnosticar(self, request, *args, **kwargs):
-        object = self.get_object()
         serializer = DiagnosticoSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -63,15 +59,27 @@ class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
         return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CasosMedicosViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = ReclamarSerializer
+    queryset = CasoMedico.objects.all()
 
+    def list(self, request, *args, **kwargs):
+        query_set = CasoMedico.objects.filter(medico__isnull=True)
+        return Response(self.serializer_class(query_set, many=True).data)
 
-    @action(detail=True, methods=['post'])
-    def diagnosticar(self, request):
-        caso = self.get_queryset(self)
-        diagnostico_serializer = DiagnosticoSerializer(data=request.data)
-        if diagnostico_serializer.is_valid():
-            caso.save()
-            return Response({'status': 'diagnosticando'})
-        else:
-            return Response(diagnostico_serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
+
+    def partial_update(self, request, *args, **kwargs):
+        """Reclaim medical case"""
+        instance = self.get_object()
+        data = request.data
+        medico = Medico.objects.filter(id=data.get('medico')).first()
+        instance.medico = medico
+        instance.save()
+        serializer = CasoMedicoSerializer(instance)
+        if serializer:
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
