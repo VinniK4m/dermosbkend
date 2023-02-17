@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Diagnostico, Paises
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Diagnostico, Paises, Soporte
 
 
 class EspecialidadesSerializer(serializers.ModelSerializer):
@@ -56,3 +56,10 @@ class DiagnosticoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Diagnostico
         fields = ('id', 'caso', 'fecha_diagnostico', 'descripcion', 'fecha_acepta')
+
+class SoporteSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Soporte
+        fields = ('id', 'medico', 'tipo_soporte', 'institucion_educativa',
+                  'nombre_programa', 'descripcion','graduado', 'fecha_grado', 'fecha_soporte', 'validado', 'url' )

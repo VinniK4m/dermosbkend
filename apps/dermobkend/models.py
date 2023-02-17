@@ -322,7 +322,7 @@ class Paciente(models.Model):
     numero_celular = models.IntegerField(null=True)
     correo = models.CharField(max_length=100, null=True)
     clave = models.CharField(max_length=15, null=True)
-    
+
     def __str__(self):
         return "{0} {1}".format(self.nombres, self.apellidos)
 
@@ -335,9 +335,9 @@ class Paciente(models.Model):
 
 class EstadoCaso(models.TextChoices):
     CREADO = 'CREADO'
-    REVISION = 'EREVISION'
-    SELECCIONADO = 'RECLAMADO'
-    DIAGNOSTICADO = 'DIAGNOSTICADO'
+    RESERVADO = 'ENREVISION'
+    SELECCIONADO = 'SELECCIONADO'
+    LIBRE = 'LIBRE'
 
 
 class CasoMedico(models.Model):
@@ -402,18 +402,24 @@ class Tratamiento(models.Model):
 
 
 class TipoSoporte(models.TextChoices):
-    PREGRADO = 'PREGRADO'
-    ESPECIALIZACION = 'ESPECIALIZACION'
-    CERTIFICACION = 'CERTIFICACION'
-    SEMINARIO = 'SEMINARIO'
-    DIPLOMADO = 'DIPLOMADO'
-
+    PREGRADO = 'PREGRADO', 'PREGRADO'
+    ESPECIALIZACION = 'ESPECIALIZACION','ESPECIALIZACION'
+    CERTIFICACION = 'CERTIFICACION','CERTIFICACION'
+    SEMINARIO = 'SEMINARIO','SEMINARIO'
+    DIPLOMADO = 'DIPLOMADO','DIPLOMADO'
 
 class Soporte(models.Model):
     medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
-    tipo_soporte = TipoSoporte
-    descripcion = models.TextField()
-    fecha_soporte = models.DateField()
+    tipo_soporte = models.CharField(max_length=50, choices=TipoSoporte.choices,
+                                           default=TipoSoporte.PREGRADO)
+    institucion_educativa = models.TextField(max_length=150, default='NUNGUNA')
+    nombre_programa = models.TextField(max_length=150, default='MEDICINA')
+    descripcion = models.TextField(max_length=200, null=True)
+    graduado = models.BooleanField(default=True)
+    fecha_grado = models.DateField(null=True)
+    fecha_soporte = models.DateField(null=True)
+    validado = models.BooleanField(default=False)
+    url = models.TextField(max_length=500, null=True)
 
     class Meta:
         verbose_name = 'Soportes'
