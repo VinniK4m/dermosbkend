@@ -7,10 +7,11 @@ from apps.dermobkend.models import CasoMedico, Diagnostico
 
 class CasoMedicoSerializer(serializers.ModelSerializer):
     diagnosticos = serializers.StringRelatedField(many=True)
+    lesion_caso = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = CasoMedico
-        fields = ('id', 'descripcion', 'estado', 'fecha_creacion', 'paciente', 'diagnosticos','medico')
+        fields = ('id', 'descripcion', 'estado', 'fecha_creacion', 'paciente', 'diagnosticos','medico', 'lesion_caso')
         depth = 1
 
     def __init__(self, *args, **kwargs):

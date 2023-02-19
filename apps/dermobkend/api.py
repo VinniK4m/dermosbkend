@@ -2,10 +2,10 @@ from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises, Soporte
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises, Soporte, Lesion
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer, \
-    SoporteSerializer
+    SoporteSerializer, LesionSerializer
 
 
 #class MedicoList(generics.ListCreateAPIView):
@@ -95,3 +95,18 @@ class SoporteViewSet(viewsets.ModelViewSet):
     queryset = Soporte.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = SoporteSerializer
+
+class SoportesMedicoViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = SoporteSerializer
+    queryset = Soporte.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        query_set = Soporte.objects.filter(medico=self.kwargs.get('medico_id'))
+        return Response(self.serializer_class(query_set, many=True).data)
+
+
+class LesionViewSet(viewsets.ModelViewSet):
+    queryset = Lesion.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = LesionSerializer
