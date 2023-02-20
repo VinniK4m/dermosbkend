@@ -311,6 +311,16 @@ class MedicoEspecialidad(models.Model):
     especialidad = models.ForeignKey(Especialidad, on_delete=models.PROTECT)
 
 
+class PerfilDermatologico(models.TextChoices):
+    FOTOTIPO_I = 'FOTOTIPO I', 'Personas que tienen un color de pelo rubio o pelirrojo, ojos claros, ya sean verdes o azules, y una piel muy pálida o blanca. Suelen quemarse con mucha facilidad durante sus exposiciones al sol y, por ello, son los que más cuidados precisan tomar y quienes deben usar los bloqueador solares con la máxima protección'
+    FOTOTIPO_II = 'FOTOTIPO II', 'Personas que tienen un color de pelo rubio o pelirrojo, ojos claros, ya sean verdes o azules, y una piel muy pálida o blanca. Suelen quemarse con mucha facilidad durante sus exposiciones al sol y, por ello, son los que más cuidados precisan tomar y quienes deben usar los bloqueador solares con la máxima protección'
+    FOTOTIPO_III = 'FOTOTIPO III', 'Personas que tienen un color de pelo rubio o pelirrojo, ojos claros, ya sean verdes o azules, y una piel muy pálida o blanca. Suelen quemarse con mucha facilidad durante sus exposiciones al sol y, por ello, son los que más cuidados precisan tomar y quienes deben usar los bloqueador solares con la máxima protección'
+    FOTOTIPO_IV = 'FOTOTIPO IV', 'Se trata de personas con pelo castaño oscuro, los ojos marrones y la piel, de por sí, morena. No suelen tener problemas para broncearse, y su piel adopta una tonalidad dorada con facilidad. Sólo se queman si están mucho tiempo tomando el sol, pero eso no significa que no tengan que usar protector solar, con una protección normal'
+    FOTOTIPO_V = 'FOTOTIPO V', 'Son personas que tienen la piel oscura, al igual que los ojos, el pelo color negro. Se broncean con muchísima facilidad y no es necesario que se expongan mucho al sol para estar morenos. Es muy raro que se quemen, y esto sólo ocurre cuando están expuestos a las radiaciones solares de una manera excesiva. Sin embargo, ellos también necesitan usar protección solar'
+    FOTOTIPO_VI = 'FOTOTIPO VI', 'personas de raza negra. Sus pieles son muy oscuras, al igual que su cabello y ojos. Es casi imposible que se quemen, pues tienen una piel muy pigmentada, aunque deben evitar la exposición al sol sin protección, pues las radiaciones, aunque no les produzcan daños externos, también son nocivas'
+
+
+
 class Paciente(models.Model):
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
@@ -322,7 +332,8 @@ class Paciente(models.Model):
     numero_celular = models.IntegerField(null=True)
     correo = models.CharField(max_length=100, null=True)
     clave = models.CharField(max_length=15, null=True)
-    
+    perfil_dermatologico = models.CharField(max_length=255, choices=PerfilDermatologico.choices, default=PerfilDermatologico.FOTOTIPO_IV)
+
     def __str__(self):
         return "{0} {1}".format(self.nombres, self.apellidos)
 
@@ -335,9 +346,20 @@ class Paciente(models.Model):
 
 class EstadoCaso(models.TextChoices):
     CREADO = 'CREADO'
-    REVISION = 'EREVISION'
-    SELECCIONADO = 'RECLAMADO'
-    DIAGNOSTICADO = 'DIAGNOSTICADO'
+    RESERVADO = 'ENREVISION'
+    SELECCIONADO = 'SELECCIONADO'
+    LIBRE = 'LIBRE'
+
+class Lesion(models.Model):
+    tipo = models.TextField(max_length=200, null=True)
+    forma = models.TextField(max_length=200, null=True)
+    numero = models.TextField(max_length=200, null=True)
+    distribucion = models.TextField(max_length=200, null=True)
+
+    class Meta:
+        verbose_name = 'Lesion'
+        verbose_name_plural = 'Lesion'
+        db_table = 'Lesion'
 
 
 class CasoMedico(models.Model):
@@ -346,6 +368,7 @@ class CasoMedico(models.Model):
     paciente = models.ForeignKey(Paciente, related_name="casos_medicos", on_delete=models.CASCADE)
     medico = models.ForeignKey(Medico, related_name="casos_medicos_medico", on_delete=models.CASCADE, null=True)
     estado = models.CharField(max_length=50, choices=EstadoCaso.choices)
+    lesion = models.ForeignKey(Lesion, related_name="lesion_caso", on_delete=models.CASCADE, null=True)
 
     class Meta:
         db_table = 'casosmedicos'
@@ -402,20 +425,27 @@ class Tratamiento(models.Model):
 
 
 class TipoSoporte(models.TextChoices):
-    PREGRADO = 'PREGRADO'
-    ESPECIALIZACION = 'ESPECIALIZACION'
-    CERTIFICACION = 'CERTIFICACION'
-    SEMINARIO = 'SEMINARIO'
-    DIPLOMADO = 'DIPLOMADO'
-
+    PREGRADO = 'PREGRADO', 'PREGRADO'
+    ESPECIALIZACION = 'ESPECIALIZACION','ESPECIALIZACION'
+    CERTIFICACION = 'CERTIFICACION','CERTIFICACION'
+    SEMINARIO = 'SEMINARIO','SEMINARIO'
+    DIPLOMADO = 'DIPLOMADO','DIPLOMADO'
 
 class Soporte(models.Model):
-    medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
-    tipo_soporte = TipoSoporte
-    descripcion = models.TextField()
-    fecha_soporte = models.DateField()
+    medico = models.ForeignKey(Medico, related_name="soportes_medico", on_delete=models.CASCADE, null=True)
+    tipo_soporte = models.CharField(max_length=50, choices=TipoSoporte.choices,
+                                           default=TipoSoporte.PREGRADO)
+    institucion_educativa = models.TextField(max_length=150, default='NINGUNA')
+    nombre_programa = models.TextField(max_length=150, default='MEDICINA')
+    descripcion = models.TextField(max_length=200, null=True)
+    graduado = models.BooleanField(default=True)
+    fecha_grado = models.DateField(null=True)
+    fecha_soporte = models.DateField(null=True)
+    validado = models.BooleanField(default=False)
+    url = models.TextField(max_length=500, null=True)
 
     class Meta:
         verbose_name = 'Soportes'
         verbose_name_plural = 'Soportes'
         db_table = 'soportes'
+

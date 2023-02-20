@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Diagnostico, Paises
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Diagnostico, Paises, Soporte, Lesion
 
 
 class EspecialidadesSerializer(serializers.ModelSerializer):
@@ -10,11 +10,12 @@ class EspecialidadesSerializer(serializers.ModelSerializer):
 
 class MedicoSerializer(serializers.ModelSerializer):
     casos_medicos_medico = serializers.StringRelatedField(many=True)
+    soportes_medico = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Medico
         fields = ('id','tipo_identificacion','numero_identificacion','nombres', 'apellidos', 'lugar_nacimiento', 'lugar_residencia', 'numero_celular',
-                  'numero_registro_profesional','correo' , 'clave', 'fecha_nacimiento', "casos_medicos_medico")
+                  'numero_registro_profesional','correo' , 'clave', 'fecha_nacimiento', "casos_medicos_medico", "soportes_medico")
         depth = 1
 
     def __init__(self, *args, **kwargs):
@@ -39,7 +40,7 @@ class PacienteSerializer(serializers.ModelSerializer):
         model = Paciente
         fields = (
             'id', 'nombres', 'apellidos', 'lugar_nacimiento', 'fecha_nacimiento', 'lugar_residencia', 'edad',
-            'sexo','numero_celular', 'correo', 'clave', "casos_medicos")
+            'sexo','numero_celular', 'correo', 'clave', "casos_medicos", "perfil_dermatologico")
         depth = 1
 
     def __init__(self, *args, **kwargs):
@@ -56,3 +57,16 @@ class DiagnosticoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Diagnostico
         fields = ('id', 'caso', 'fecha_diagnostico', 'descripcion', 'fecha_acepta')
+
+class SoporteSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Soporte
+        fields = ('id', 'medico', 'tipo_soporte', 'institucion_educativa',
+                  'nombre_programa', 'descripcion','graduado', 'fecha_grado', 'fecha_soporte', 'validado', 'url' )
+
+class LesionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Lesion
+        fields = ('id', 'tipo', 'forma','numero', 'distribucion')
