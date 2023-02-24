@@ -6,6 +6,7 @@ from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises, 
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer, \
     SoporteSerializer, LesionSerializer
+from django.contrib.auth.models import User
 
 
 #class MedicoList(generics.ListCreateAPIView):
@@ -47,6 +48,18 @@ class MedicoViewSet(viewsets.ModelViewSet):
         serializer = MedicoSerializer(medicos, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+     def create(self, request, *args, **kwargs):
+        request_data = request.data.copy()
+        serializer = self.serializer_class(data=request_data)
+        if serializer.is_valid():
+            serializer.save()
+            user = User.objects.create_user(request_data['correo'], request_data['correo'], request_data['clave'])
+            user.first_name = request_data['nombres']
+            user.last_name = request_data['apellidos']
+            user.save()
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
 class EspecialidadesViewSet(viewsets.ModelViewSet):
