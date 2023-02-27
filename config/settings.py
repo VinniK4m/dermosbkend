@@ -41,6 +41,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
     'corsheaders',
     'config',
 ]
@@ -53,6 +54,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "apps.dermobkend.apps.DermobkendConfig",
     "apps.caso_medico.apps.CasosMedicosConfig",
+
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -73,6 +75,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200',
     'http://127.0.0.1:4200',
     'http://127.0.0.1:8000',
+    'http://localhost:8000',
     'https://dermosbkend.onrender.com'
 )
 
