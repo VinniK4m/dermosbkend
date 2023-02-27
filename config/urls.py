@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken import views
+from apps.login_rest.views import Login, Logout, UserLogIn
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,7 +26,14 @@ urlpatterns = [
             [
                 path("", include('apps.caso_medico.urls')),
                 path("", include('apps.dermobkend.urls')),
+                path("", include('apps.login_rest.urls')),
+
             ]
         )
-    )
+    ),
+    path('admin/', admin.site.urls),
+    path('api_generate_token/', views.obtain_auth_token),
+    path('api-user-login/', UserLogIn.as_view()),
+    path('login/', Login.as_view(), name='login'),
+    path('logout/', Logout.as_view())
 ]
