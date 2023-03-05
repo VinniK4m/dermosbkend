@@ -2,10 +2,10 @@ from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises, Soporte, Lesion
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises, Soporte, Lesion, Diagnostico
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer, \
-    SoporteSerializer, LesionSerializer
+    SoporteSerializer, LesionSerializer, DiagnosticoSerializer
 from django.contrib.auth.models import User
 
 

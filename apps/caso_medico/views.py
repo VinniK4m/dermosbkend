@@ -1,5 +1,9 @@
+from os import link
+
 from rest_framework import permissions, viewsets, status
 from rest_framework.response import Response
+import requests
+import json
 from rest_framework.decorators import action
 
 from apps.caso_medico.serializers import CasoMedicoSerializer, DiagnosticoSerializer
@@ -36,7 +40,6 @@ class CasosMedicosPacienteViewSet(viewsets.ModelViewSet):
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
-
 class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = CasoMedicoSerializer
@@ -49,6 +52,7 @@ class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
+
 
     @action(detail=True, methods=['post'], name='Diagnosticar caso')
     def diagnosticar(self, request, *args, **kwargs):
@@ -71,6 +75,34 @@ class CasosMedicosViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'], url_path='automatico')
+    def diagnosticar(self, request, *args, **kwargs):
+        print('Entro dijo la m....a')
+        request_data = request.data.copy()
+        url = 'https://57640608-851c-4e1a-9cfd-29573fc37938.mock.pstmn.io/diagnosticar'
+        json_diagnostico = {
+            "paciente": {
+                "id":123,
+                "nombre":"Elsa",
+                "apellido":"Patero",
+                "identificacion":"123",
+                "correo":"c@c.cpm",
+                "consulta":{
+                    "descripcion":"alskjda s",
+                    "imagenes":[
+                        {"url1":"url1"},
+                        {"url2":"url2"}
+                    ]
+                }
+            }
+        }
+
+        response =  requests.post(url, json_diagnostico)
+        jsonRta = response.json()
+        diagnosticoGral = jsonRta['diagnostico']
+
+        return Response(data=diagnosticoGral, status=status.HTTP_200_OK)
 
     def partial_update(self, request, *args, **kwargs):
         """Reclaim medical case"""
