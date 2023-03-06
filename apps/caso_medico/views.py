@@ -7,6 +7,7 @@ import json
 from rest_framework.decorators import action
 
 from apps.caso_medico.serializers import CasoMedicoSerializer, DiagnosticoSerializer
+from apps.dermobkend.serializers import DiagnosticoExternoSerializer
 from apps.dermobkend.models import CasoMedico, Paciente, Medico
 
 # Create your views here.
@@ -84,6 +85,7 @@ class CasosMedicosViewSet(viewsets.ModelViewSet):
         json_diagnostico = {
             "paciente": {
                 "id":123,
+                "id_caso":1,
                 "nombre":"Elsa",
                 "apellido":"Patero",
                 "identificacion":"123",
@@ -101,6 +103,10 @@ class CasosMedicosViewSet(viewsets.ModelViewSet):
         response =  requests.post(url, json_diagnostico)
         jsonRta = response.json()
         diagnosticoGral = jsonRta['diagnostico']
+        serializerDiagnosticoEx = DiagnosticoExternoSerializer(data=diagnosticoGral)
+        if serializerDiagnosticoEx.is_valid(raise_exception=True):
+            serializerDiagnosticoEx.save()
+            return Response(data=diagnosticoGral, status=status.HTTP_201_CREATED)
 
         return Response(data=diagnosticoGral, status=status.HTTP_200_OK)
 

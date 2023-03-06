@@ -2,10 +2,10 @@ from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises, Soporte, Lesion, Diagnostico
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises, Soporte, Lesion, DiagnosticoExterno
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer, \
-    SoporteSerializer, LesionSerializer, DiagnosticoSerializer
+    SoporteSerializer, LesionSerializer, DiagnosticoExternoSerializer
 from django.contrib.auth.models import User
 
 
@@ -123,3 +123,8 @@ class LesionViewSet(viewsets.ModelViewSet):
     queryset = Lesion.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = LesionSerializer
+
+class DiagnosticoExternoViewSet(viewsets.ModelViewSet):
+    queryset = DiagnosticoExterno.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = DiagnosticoExternoSerializer
