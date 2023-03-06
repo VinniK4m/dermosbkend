@@ -408,7 +408,6 @@ class DiagnosticoExterno(models.Model):
     recomendaciones = models.TextField()
     ciudadcita = models.TextField()
     fechacitapresencial = models.TextField()
-    fechacitapresencial = models.TextField()
     urlCitaremota = models.TextField()
     class Meta:
         verbose_name = 'Diagnosticosexternos'
