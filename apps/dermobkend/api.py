@@ -1,9 +1,9 @@
 from rest_framework.response import Response
 
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises, Soporte, Lesion
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises, Soporte, Lesion, DiagnosticoExterno
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer, \
-    SoporteSerializer, LesionSerializer
+    SoporteSerializer, LesionSerializer, DiagnosticoExternoSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
@@ -59,7 +59,6 @@ class EspecialidadesViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = EspecialidadesSerializer
 
-
 class MedicoEspecialidadViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = MedicoEspecialidadesSerializer
@@ -114,7 +113,6 @@ class SoporteViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = SoporteSerializer
 
-
 class SoportesMedicoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = SoporteSerializer
@@ -129,3 +127,8 @@ class LesionViewSet(viewsets.ModelViewSet):
     queryset = Lesion.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = LesionSerializer
+
+class DiagnosticoExternoViewSet(viewsets.ModelViewSet):
+    queryset = DiagnosticoExterno.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = DiagnosticoExternoSerializer
