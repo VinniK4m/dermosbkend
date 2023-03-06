@@ -399,6 +399,24 @@ class Diagnostico(models.Model):
     def __str__(self):
         return '%s: %s' % (self.fecha_acepta, self.descripcion)
 
+class DiagnosticoExterno(models.Model):
+    caso = models.ForeignKey(CasoMedico, related_name="diagnosticosexternos", on_delete=models.PROTECT)
+    fecha_diagnostico = models.DateField()
+    diagnostico = models.TextField()
+    nombre_medico = models.TextField()
+    correo = models.TextField()
+    recomendaciones = models.TextField()
+    ciudadcita = models.TextField()
+    fechacitapresencial = models.TextField()
+    fechacitapresencial = models.TextField()
+    urlCitaremota = models.TextField()
+    class Meta:
+        verbose_name = 'Diagnosticosexternos'
+        verbose_name_plural = 'Diagnosticosexternos'
+        db_table = 'diagnosticosexternos'
+
+    def __str__(self):
+        return '%s: %s' % (self.fecha_diagnostico, self.descripcion)
 
 class ImagenDiagnostica(models.Model):
     caso = models.ForeignKey(CasoMedico, null=True, blank=True, on_delete=models.PROTECT)
