@@ -10,8 +10,8 @@ from django.contrib.auth.models import User
 
 
 class MedicoViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    authentication_class = (TokenAuthentication,)
+    #permission_classes = (IsAuthenticated,)
+    #authentication_class = (TokenAuthentication,)
     serializer_class = MedicoSerializer
 
     def get_queryset(self):
