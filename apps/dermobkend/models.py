@@ -466,3 +466,27 @@ class Soporte(models.Model):
         verbose_name_plural = 'Soportes'
         db_table = 'soportes'
 
+class Seguimiento(models.Model):
+    diagnostico = models.ForeignKey(Diagnostico, on_delete=models.PROTECT)
+    medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
+    mensaje_paciente = models.TextField()
+    fecha_msg_paciente = models.DateField()
+    mensaje_medico = models.TextField()
+    fecha_msg_medico = models.DateField()
+    detalle = models.TextField()
+
+    class Meta:
+        verbose_name = 'Seguimientos'
+        verbose_name_plural = 'Seguimientos'
+        db_table = 'seguimientos'
+
+class ImagenDiagnosticaT(models.Model):
+    seguimiento = models.ForeignKey(Seguimiento, null=True, blank=True, on_delete=models.PROTECT)
+    url = models.TextField()
+    descripcion = models.TextField()
+    fecha_creacion = models.DateField()
+
+    class Meta:
+        verbose_name = 'ImagenDiagnosticaT'
+        verbose_name_plural = 'ImagenesDianosticasT'
+        db_table = 'imagenesdianosticast'

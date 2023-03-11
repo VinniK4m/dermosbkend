@@ -1,9 +1,9 @@
 from rest_framework.response import Response
 
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Paises, Soporte, Lesion, DiagnosticoExterno
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Seguimiento, Soporte, Lesion, DiagnosticoExterno
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer, \
-    SoporteSerializer, LesionSerializer, DiagnosticoExternoSerializer
+    SoporteSerializer, LesionSerializer, DiagnosticoExternoSerializer, SeguimientoSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
@@ -132,3 +132,8 @@ class DiagnosticoExternoViewSet(viewsets.ModelViewSet):
     queryset = DiagnosticoExterno.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = DiagnosticoExternoSerializer
+
+class SeguimientosViewSet(viewsets.ModelViewSet):
+    queryset = Seguimiento.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = SeguimientoSerializer
