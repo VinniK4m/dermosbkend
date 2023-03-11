@@ -30,6 +30,16 @@ class CasosMedicosPacienteViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
 
+    def create(self, request, *args, **kwargs):
+        request_data = request.data.copy()
+        paciente = Paciente.objects.filter(id=self.kwargs.get('paciente_id')).get()
+        if paciente:
+            request_data['paciente'] = str(paciente.id)
+        serializer = self.serializer_class(data=request_data)
+        if serializer.is_valid():
+            serializer.cre()
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
@@ -127,7 +137,11 @@ class ImagenDiagnosticaViewset(viewsets.ModelViewSet):
         return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
+        request_data = request.data.copy()
+        caso = CasoMedico.objects.filter(id=self.kwargs.get('caso_id')).get()
+        if caso:
+            request_data['caso'] = str(caso.id)
+        serializer = self.serializer_class(data=request_data)
         if serializer.is_valid(raise_exception=True):
             serializer.create(validated_data=serializer.validated_data)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
