@@ -6,9 +6,9 @@ import requests
 import json
 from rest_framework.decorators import action
 
-from apps.caso_medico.serializers import CasoMedicoSerializer, DiagnosticoSerializer
+from apps.caso_medico.serializers import CasoMedicoSerializer, DiagnosticoSerializer, ImagenDiagnosticaSerializer
 from apps.dermobkend.serializers import DiagnosticoExternoSerializer
-from apps.dermobkend.models import CasoMedico, Paciente, Medico
+from apps.dermobkend.models import CasoMedico, Paciente, Medico, ImagenDiagnostica
 
 # Create your views here.
 from apps.dermobkend.serializers import DiagnosticoSerializer
@@ -30,16 +30,6 @@ class CasosMedicosPacienteViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
 
-    def create(self, request, *args, **kwargs):
-        request_data = request.data.copy()
-        paciente = Paciente.objects.filter(id=self.kwargs.get('paciente_id')).get()
-        if paciente:
-            request_data['paciente'] = str(paciente.id)
-        serializer = self.serializer_class(data=request_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-        return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 class CasosMedicosMedicoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
@@ -123,4 +113,23 @@ class CasosMedicosViewSet(viewsets.ModelViewSet):
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class ImagenDiagnosticaViewset(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = ImagenDiagnosticaSerializer
+    queryset = ImagenDiagnostica.objects.all()
+
+
+    def list(self, request, *args, **kwargs):
+        return Response(self.serializer_class(self.queryset, many=True).data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.create(validated_data=serializer.validated_data)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
 

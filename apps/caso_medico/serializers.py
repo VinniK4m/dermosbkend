@@ -2,16 +2,16 @@ from __future__ import annotations
 
 from rest_framework import serializers
 
-from apps.dermobkend.models import CasoMedico, Diagnostico
+from apps.dermobkend.models import CasoMedico, Diagnostico, ImagenDiagnostica
 
 
 class CasoMedicoSerializer(serializers.ModelSerializer):
     diagnosticos = serializers.StringRelatedField(many=True)
-    lesion_caso = serializers.StringRelatedField(many=False)
+    imagenes = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = CasoMedico
-        fields = ('id', 'descripcion', 'estado', 'fecha_creacion', 'paciente', 'diagnosticos','medico', 'lesion_caso')
+        fields = '__all__'
         depth = 1
 
     def __init__(self, *args, **kwargs):
@@ -36,3 +36,9 @@ class DiagnosticoSerializer(serializers.ModelSerializer):
             self.Meta.depth = 0
         else:
             self.Meta.depth = 1
+
+
+class ImagenDiagnosticaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImagenDiagnostica
+        fields = '__all__'
