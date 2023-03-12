@@ -1,10 +1,11 @@
 from rest_framework.response import Response
 
 from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Seguimiento, Soporte, DiagnosticoExterno, \
-    Diagnostico, Tratamiento
+    Diagnostico, Tratamiento, ImagenDiagnosticaT
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer, \
-    SoporteSerializer, DiagnosticoExternoSerializer, SeguimientoSerializer, DiagnosticoSerializer, TratamientoSerializer
+    SoporteSerializer, DiagnosticoExternoSerializer, SeguimientoSerializer, DiagnosticoSerializer, \
+    TratamientoSerializer, ImagenDiagnosticaTSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
@@ -140,7 +141,6 @@ class SeguimientosMedicoViewSet(viewsets.ModelViewSet):
     serializer_class = SeguimientoSerializer
 
     def list(self, request, *args, **kwargs):
-        print(self.kwargs.get('medico_id'))
         query_set = Seguimiento.objects.filter(tratamiento__medico=self.kwargs.get('medico_id'))
         return Response(self.serializer_class(query_set, many=True).data)
 
@@ -157,3 +157,16 @@ class TratamientoViewSet(viewsets.ModelViewSet):
     queryset = Tratamiento.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = TratamientoSerializer
+
+class ImagenDiagnosticaTViewSet(viewsets.ModelViewSet):
+    queryset = ImagenDiagnosticaT.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = ImagenDiagnosticaTSerializer
+
+    def list(self, request, *args, **kwargs):
+        query_set = ImagenDiagnosticaT.objects.filter(seguimiento=self.kwargs.get('seguimiento_id'))
+        return Response(self.serializer_class(query_set, many=True).data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
