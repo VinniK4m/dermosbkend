@@ -392,8 +392,8 @@ class Interacciones(models.Model):
 
 class Diagnostico(models.Model):
     caso = models.ForeignKey(CasoMedico, related_name="diagnosticos", on_delete=models.CASCADE)
-    fecha_diagnostico = models.DateField()
-    descripcion = models.TextField()
+    fecha_diagnostico = models.DateField(null=True)
+    descripcion = models.TextField(null=True)
     fecha_acepta = models.DateField(null=True)
 
     class Meta:
@@ -462,11 +462,11 @@ class Soporte(models.Model):
 
 class Seguimiento(models.Model):
     tratamiento = models.ForeignKey(Tratamiento, on_delete=models.PROTECT)
-    mensaje_paciente = models.TextField()
-    fecha_msg_paciente = models.DateField()
-    mensaje_medico = models.TextField(max_length=500, null=True)
+    mensaje_paciente = models.TextField(max_length=200, default='')
+    fecha_msg_paciente = models.DateField(null=True)
+    mensaje_medico = models.TextField(max_length=200, null=True)
     fecha_msg_medico = models.DateField(null=True)
-    detalle = models.TextField(max_length=500,null=True)
+    detalle = models.TextField(max_length=200, null=True)
 
     class Meta:
         verbose_name = 'Seguimientos'
@@ -475,9 +475,9 @@ class Seguimiento(models.Model):
 
 class ImagenDiagnosticaT(models.Model):
     seguimiento = models.ForeignKey(Seguimiento, null=True, blank=True, on_delete=models.PROTECT)
-    url = models.TextField()
-    descripcion = models.TextField(max_length=200, null=True)
-    fecha_creacion = models.DateField()
+    url = models.TextField(default='')
+    descripcion = models.TextField(default='')
+    fecha_creacion = models.DateField(null=True)
 
     class Meta:
         verbose_name = 'ImagenDiagnosticaT'
