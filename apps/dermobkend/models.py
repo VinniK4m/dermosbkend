@@ -389,7 +389,7 @@ class Diagnostico(models.Model):
     caso = models.ForeignKey(CasoMedico, related_name="diagnosticos", on_delete=models.PROTECT)
     fecha_diagnostico = models.DateField()
     descripcion = models.TextField()
-    fecha_acepta = models.DateField()
+    fecha_acepta = models.DateField(null=True)
 
     class Meta:
         verbose_name = 'Diagnosticos'
@@ -467,13 +467,13 @@ class Soporte(models.Model):
         db_table = 'soportes'
 
 class Seguimiento(models.Model):
-    diagnostico = models.ForeignKey(Diagnostico, on_delete=models.PROTECT)
+    tratamiento = models.ForeignKey(Tratamiento, on_delete=models.PROTECT)
     medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
     mensaje_paciente = models.TextField()
     fecha_msg_paciente = models.DateField()
-    mensaje_medico = models.TextField()
-    fecha_msg_medico = models.DateField()
-    detalle = models.TextField()
+    mensaje_medico = models.TextField(max_length=500, null=True)
+    fecha_msg_medico = models.DateField(null=True)
+    detalle = models.TextField(max_length=500,null=True)
 
     class Meta:
         verbose_name = 'Seguimientos'
@@ -483,7 +483,7 @@ class Seguimiento(models.Model):
 class ImagenDiagnosticaT(models.Model):
     seguimiento = models.ForeignKey(Seguimiento, null=True, blank=True, on_delete=models.PROTECT)
     url = models.TextField()
-    descripcion = models.TextField()
+    descripcion = models.TextField(max_length=200, null=True)
     fecha_creacion = models.DateField()
 
     class Meta:

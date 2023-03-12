@@ -1,9 +1,10 @@
 from rest_framework.response import Response
 
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Seguimiento, Soporte, Lesion, DiagnosticoExterno
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Seguimiento, Soporte, Lesion, \
+    DiagnosticoExterno, Diagnostico
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer, \
-    SoporteSerializer, LesionSerializer, DiagnosticoExternoSerializer, SeguimientoSerializer
+    SoporteSerializer, LesionSerializer, DiagnosticoExternoSerializer, SeguimientoSerializer, DiagnosticoSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
@@ -137,3 +138,21 @@ class SeguimientosViewSet(viewsets.ModelViewSet):
     queryset = Seguimiento.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = SeguimientoSerializer
+
+class SeguimientosMedicoViewSet(viewsets.ModelViewSet):
+    queryset = Seguimiento.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = SeguimientoSerializer
+
+    def list(self, request, *args, **kwargs):
+        query_set = Seguimiento.objects.filter(medico=self.kwargs.get('medico_id'))
+        return Response(self.serializer_class(query_set, many=True).data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
+
+class DiagnosticoXViewSet(viewsets.ModelViewSet):
+    queryset = Diagnostico.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = DiagnosticoSerializer
