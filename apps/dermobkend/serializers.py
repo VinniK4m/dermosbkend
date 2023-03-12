@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, \
-    Diagnostico, DiagnosticoExterno, Soporte, Seguimiento
+    Diagnostico, DiagnosticoExterno, Soporte, Seguimiento, Tratamiento
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
@@ -85,3 +85,9 @@ class SeguimientoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seguimiento
         fields = ('tratamiento', 'mensaje_paciente','fecha_msg_paciente', 'mensaje_medico', 'fecha_msg_medico', 'detalle')
+
+class TratamientoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Tratamiento
+        fields = ('diagnostico', 'fecha_inicio','medico', 'detalle')

@@ -1,6 +1,7 @@
 from rest_framework import routers
 from .api import MedicoViewSet, PacienteViewSet, EspecialidadesViewSet, MedicoEspecialidadViewSet, SoporteViewSet, \
-    SoportesMedicoViewSet, DiagnosticoExternoViewSet, SeguimientosViewSet, SeguimientosMedicoViewSet,DiagnosticoXViewSet
+    SoportesMedicoViewSet, DiagnosticoExternoViewSet, SeguimientosViewSet, SeguimientosMedicoViewSet, \
+    DiagnosticoXViewSet, TratamientoViewSet
 
 router = routers.DefaultRouter()
 
@@ -13,6 +14,7 @@ router.register('soportes', SoporteViewSet, 'dermosbk')
 router.register('diagnosticoexterno', DiagnosticoExternoViewSet, 'dermosbk')
 router.register('seguimientos', SeguimientosViewSet, 'dermosbk')
 router.register('diagnosticosx', DiagnosticoXViewSet, 'dermosbk')
+router.register('tratamientos', TratamientoViewSet, 'dermosbk')
 router.register(r'seguimientomedico/(?P<medico_id>\d+)', SeguimientosMedicoViewSet)
 
 urlpatterns = router.urls

@@ -1,9 +1,10 @@
 from rest_framework.response import Response
 
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Seguimiento, Soporte, DiagnosticoExterno, Diagnostico
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Seguimiento, Soporte, DiagnosticoExterno, \
+    Diagnostico, Tratamiento
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import MedicoSerializer, PacienteSerializer, EspecialidadesSerializer, MedicoEspecialidadesSerializer, \
-    SoporteSerializer, DiagnosticoExternoSerializer, SeguimientoSerializer, DiagnosticoSerializer
+    SoporteSerializer, DiagnosticoExternoSerializer, SeguimientoSerializer, DiagnosticoSerializer, TratamientoSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
@@ -139,7 +140,8 @@ class SeguimientosMedicoViewSet(viewsets.ModelViewSet):
     serializer_class = SeguimientoSerializer
 
     def list(self, request, *args, **kwargs):
-        query_set = Seguimiento.objects.filter(tratamiento=self.kwargs.get('medico'))
+        print(self.kwargs.get('medico_id'))
+        query_set = Seguimiento.objects.filter(tratamiento__medico=self.kwargs.get('medico_id'))
         return Response(self.serializer_class(query_set, many=True).data)
 
     def retrieve(self, request, *args, **kwargs):
@@ -150,3 +152,8 @@ class DiagnosticoXViewSet(viewsets.ModelViewSet):
     queryset = Diagnostico.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = DiagnosticoSerializer
+
+class TratamientoViewSet(viewsets.ModelViewSet):
+    queryset = Tratamiento.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = TratamientoSerializer
