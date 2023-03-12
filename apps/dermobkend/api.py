@@ -123,8 +123,6 @@ class SoportesMedicoViewSet(viewsets.ModelViewSet):
         return Response(self.serializer_class(query_set, many=True).data)
 
 
-
-
 class DiagnosticoExternoViewSet(viewsets.ModelViewSet):
     queryset = DiagnosticoExterno.objects.all()
     permission_classes = [permissions.AllowAny]
@@ -141,7 +139,7 @@ class SeguimientosMedicoViewSet(viewsets.ModelViewSet):
     serializer_class = SeguimientoSerializer
 
     def list(self, request, *args, **kwargs):
-        query_set = Seguimiento.objects.filter(medico=self.kwargs.get('medico_id'))
+        query_set = Seguimiento.objects.filter(tratamiento=self.kwargs.get('medico'))
         return Response(self.serializer_class(query_set, many=True).data)
 
     def retrieve(self, request, *args, **kwargs):

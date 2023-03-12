@@ -84,4 +84,4 @@ class SeguimientoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Seguimiento
-        fields = ('diagnostico', 'medico', 'mensaje_paciente','fecha_msg_paciente', 'mensaje_medico', 'fecha_msg_medico', 'detalle')
+        fields = ('tratamiento', 'mensaje_paciente','fecha_msg_paciente', 'mensaje_medico', 'fecha_msg_medico', 'detalle')

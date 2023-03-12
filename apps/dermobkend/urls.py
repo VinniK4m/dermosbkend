@@ -1,6 +1,6 @@
 from rest_framework import routers
 from .api import MedicoViewSet, PacienteViewSet, EspecialidadesViewSet, MedicoEspecialidadViewSet, SoporteViewSet, \
-    SoportesMedicoViewSet, DiagnosticoExternoViewSet, SeguimientosViewSet, , SeguimientosMedicoViewSet,DiagnosticoXViewSet
+    SoportesMedicoViewSet, DiagnosticoExternoViewSet, SeguimientosViewSet, SeguimientosMedicoViewSet,DiagnosticoXViewSet
 
 router = routers.DefaultRouter()
 

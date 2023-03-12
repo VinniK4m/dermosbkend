@@ -462,7 +462,6 @@ class Soporte(models.Model):
 
 class Seguimiento(models.Model):
     tratamiento = models.ForeignKey(Tratamiento, on_delete=models.PROTECT)
-    medico = models.ForeignKey(Medico, on_delete=models.PROTECT)
     mensaje_paciente = models.TextField()
     fecha_msg_paciente = models.DateField()
     mensaje_medico = models.TextField(max_length=500, null=True)
