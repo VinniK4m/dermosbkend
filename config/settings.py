@@ -104,19 +104,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-DATABASES = {
-    'default': env.db("DJANGO_DEFAULT_DATABASE_URL", f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
-}
 #DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'dermosdb',
-#        'USER': 'dermouser',
-#        'PASSWORD': 'SjbnUKsRcvwK56y4JEMzP3yLjJ7Lfum1',
-#        'HOST': 'dpg-cf8u0g1gp3jqqeste0ag-a.oregon-postgres.render.com',
-#        'PORT': '5432',
-#    }
+#    'default': env.db("DJANGO_DEFAULT_DATABASE_URL", f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
 #}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dermosdb',
+        'USER': 'dermouser',
+        'PASSWORD': 'SjbnUKsRcvwK56y4JEMzP3yLjJ7Lfum1',
+        'HOST': 'dpg-cf8u0g1gp3jqqeste0ag-a.oregon-postgres.render.com',
+        'PORT': '5432',
+    }
+}
 # 'ENGINE': 'django.db.backends.sqlite3',
 # 'NAME': BASE_DIR / 'db.sqlite3',
 # 'ENGINE': 'django.db.backends.postgresql_psycopg2',

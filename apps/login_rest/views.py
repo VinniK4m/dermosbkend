@@ -18,6 +18,7 @@ from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from apps.dermobkend.models import Medico, Paciente
 
 from apps.dermobkend.models import Medico, Paciente
 
@@ -38,6 +39,7 @@ class UserLogIn(ObtainAuthToken):
         if paciente:
             identificador = paciente.id
             fullname = paciente.nombres + ' ' + paciente.apellidos
+
         return Response({
                     'token': token[0].key,
                     'id': identificador,
