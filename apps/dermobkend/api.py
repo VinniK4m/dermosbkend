@@ -130,6 +130,21 @@ class DiagnosticoExternoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = DiagnosticoExternoSerializer
 
+class DiagnosticoExternoCasoViewSet(viewsets.ModelViewSet):
+    queryset = DiagnosticoExterno.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = DiagnosticoExternoSerializer
+
+    def list(self, request, *args, **kwargs):
+        query_set = DiagnosticoExterno.objects.filter(caso=self.kwargs.get('caso_id'))
+        return Response(self.serializer_class(query_set, many=True).data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        return Response(self.serializer_class(instance).data, status=status.HTTP_200_OK)
+
+
+
 class SeguimientosViewSet(viewsets.ModelViewSet):
     queryset = Seguimiento.objects.all()
     permission_classes = [permissions.AllowAny]
