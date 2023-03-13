@@ -43,6 +43,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
     'corsheaders',
     'config',
 ]
@@ -75,8 +76,10 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200',
     'http://127.0.0.1:4200',
     'http://127.0.0.1:8000',
+    'http://localhost:8000',
     'https://dermosbkend.onrender.com',
-    'https://dermoweb.onrender.com'
+    'https://dermoweb.onrender.com',
+    'https://dermobuild.onrender.com'
 )
 
 ROOT_URLCONF = 'config.urls'
@@ -103,17 +106,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': env.db("DJANGO_DEFAULT_DATABASE_URL", f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
-#}
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://dermouser:SjbnUKsRcvwK56y4JEMzP3yLjJ7Lfum1@dpg-cf8u0g1gp3jqqeste0ag-a.oregon-postgres.render.com/dermosdb',
-        conn_max_age=600
-    )
+    'default': env.db("DJANGO_DEFAULT_DATABASE_URL", f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
 }
-#default='postgresql://dermouser:123456@localhost:5432/dermosdb',
-
 # 'ENGINE': 'django.db.backends.sqlite3',
 # 'NAME': BASE_DIR / 'db.sqlite3',
 # 'ENGINE': 'django.db.backends.postgresql_psycopg2',

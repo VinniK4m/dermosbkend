@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, Diagnostico, Paises, Soporte, Lesion
+from .models import Medico, Paciente, Especialidad, MedicoEspecialidad, \
+    Diagnostico, DiagnosticoExterno, Soporte, Seguimiento, Tratamiento, ImagenDiagnosticaT
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 
 class EspecialidadesSerializer(serializers.ModelSerializer):
@@ -14,8 +17,10 @@ class MedicoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Medico
-        fields = ('id','tipo_identificacion','numero_identificacion','nombres', 'apellidos', 'lugar_nacimiento', 'lugar_residencia', 'numero_celular',
-                  'numero_registro_profesional','correo' , 'clave', 'fecha_nacimiento', "casos_medicos_medico", "soportes_medico")
+        fields = ('id', 'tipo_identificacion', 'numero_identificacion', 'nombres', 'apellidos', 'lugar_nacimiento',
+                  'lugar_residencia', 'numero_celular',
+                  'numero_registro_profesional', 'correo', 'clave', 'fecha_nacimiento', "casos_medicos_medico",
+                  "soportes_medico")
         depth = 1
 
     def __init__(self, *args, **kwargs):
@@ -40,7 +45,7 @@ class PacienteSerializer(serializers.ModelSerializer):
         model = Paciente
         fields = (
             'id', 'nombres', 'apellidos', 'lugar_nacimiento', 'fecha_nacimiento', 'lugar_residencia', 'edad',
-            'sexo','numero_celular', 'correo', 'clave', "casos_medicos", "perfil_dermatologico")
+            'sexo', 'numero_celular', 'correo', 'clave', "casos_medicos", "perfil_dermatologico")
         depth = 1
 
     def __init__(self, *args, **kwargs):
@@ -53,20 +58,42 @@ class PacienteSerializer(serializers.ModelSerializer):
 
 
 class DiagnosticoSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Diagnostico
         fields = ('id', 'caso', 'fecha_diagnostico', 'descripcion', 'fecha_acepta')
+
+
+class DiagnosticoExternoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DiagnosticoExterno
+        fields = ('id', 'caso', 'fecha_diagnostico', 'diagnostico', 'nombre_medico','correo', 'recomendaciones',
+                  'ciudadcita','fechacitapresencial','urlCitaremota')
+
 
 class SoporteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Soporte
         fields = ('id', 'medico', 'tipo_soporte', 'institucion_educativa',
-                  'nombre_programa', 'descripcion','graduado', 'fecha_grado', 'fecha_soporte', 'validado', 'url' )
+                  'nombre_programa', 'descripcion', 'graduado', 'fecha_grado', 'fecha_soporte', 'validado', 'url')
 
-class LesionSerializer(serializers.ModelSerializer):
+
+
+class SeguimientoSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Lesion
-        fields = ('id', 'tipo', 'forma','numero', 'distribucion')
+        model = Seguimiento
+        fields = ('id','tratamiento', 'mensaje_paciente','fecha_msg_paciente', 'mensaje_medico', 'fecha_msg_medico', 'detalle')
+
+class TratamientoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Tratamiento
+        fields = ('diagnostico', 'fecha_inicio','medico', 'detalle')
+
+class ImagenDiagnosticaTSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ImagenDiagnosticaT
+        fields = ('id','seguimiento', 'url','descripcion', 'fecha_creacion')

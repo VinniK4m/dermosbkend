@@ -350,25 +350,19 @@ class EstadoCaso(models.TextChoices):
     SELECCIONADO = 'SELECCIONADO'
     LIBRE = 'LIBRE'
 
-class Lesion(models.Model):
-    tipo = models.TextField(max_length=200, null=True)
-    forma = models.TextField(max_length=200, null=True)
-    numero = models.TextField(max_length=200, null=True)
-    distribucion = models.TextField(max_length=200, null=True)
-
-    class Meta:
-        verbose_name = 'Lesion'
-        verbose_name_plural = 'Lesion'
-        db_table = 'Lesion'
-
 
 class CasoMedico(models.Model):
     descripcion = models.TextField()
     fecha_creacion = models.DateField()
-    paciente = models.ForeignKey(Paciente, related_name="casos_medicos", on_delete=models.CASCADE)
+    paciente = models.ForeignKey(Paciente, related_name="casos_medicos", on_delete=models.CASCADE, null=True)
     medico = models.ForeignKey(Medico, related_name="casos_medicos_medico", on_delete=models.CASCADE, null=True)
     estado = models.CharField(max_length=50, choices=EstadoCaso.choices)
-    lesion = models.ForeignKey(Lesion, related_name="lesion_caso", on_delete=models.CASCADE, null=True)
+    tipo = models.TextField(max_length=200, null=True)
+    forma = models.TextField(max_length=200, null=True)
+    numero = models.TextField(max_length=200, null=True)
+    distribucion = models.TextField(max_length=200, null=True)
+    color = models.TextField(max_length=200, null=True)
+
 
     class Meta:
         db_table = 'casosmedicos'
@@ -376,6 +370,17 @@ class CasoMedico(models.Model):
     def __str__(self):
         return '%s: %s' % (self.estado, self.descripcion)
 
+class ImagenDiagnostica(models.Model):
+    caso = models.ForeignKey(CasoMedico, related_name="imagenes", on_delete=models.CASCADE)
+    url = models.TextField(max_length=200)
+
+    class Meta:
+        verbose_name = 'ImagenDiagnostica'
+        verbose_name_plural = 'ImagenesDianosticas'
+        db_table = 'imagenesdianosticas'
+
+    def __str__(self):
+        return '%s' % self.url
 
 class HistoriaClinica(models.Model):
     nombre = models.CharField(max_length=50)
@@ -386,10 +391,10 @@ class Interacciones(models.Model):
 
 
 class Diagnostico(models.Model):
-    caso = models.ForeignKey(CasoMedico, related_name="diagnosticos", on_delete=models.PROTECT)
-    fecha_diagnostico = models.DateField()
-    descripcion = models.TextField()
-    fecha_acepta = models.DateField()
+    caso = models.ForeignKey(CasoMedico, related_name="diagnosticos", on_delete=models.CASCADE)
+    fecha_diagnostico = models.DateField(null=True)
+    descripcion = models.TextField(null=True)
+    fecha_acepta = models.DateField(null=True)
 
     class Meta:
         verbose_name = 'Diagnosticos'
@@ -399,17 +404,23 @@ class Diagnostico(models.Model):
     def __str__(self):
         return '%s: %s' % (self.fecha_acepta, self.descripcion)
 
-
-class ImagenDiagnostica(models.Model):
-    caso = models.ForeignKey(CasoMedico, null=True, blank=True, on_delete=models.PROTECT)
-    url = models.TextField()
-    descripcion = models.TextField()
-    fecha_creacion = models.DateField()
-
+class DiagnosticoExterno(models.Model):
+    caso = models.ForeignKey(CasoMedico, related_name="diagnosticosexternos", on_delete=models.CASCADE)
+    fecha_diagnostico = models.DateField()
+    diagnostico = models.TextField()
+    nombre_medico = models.TextField()
+    correo = models.TextField()
+    recomendaciones = models.TextField()
+    ciudadcita = models.TextField()
+    fechacitapresencial = models.TextField()
+    urlCitaremota = models.TextField()
     class Meta:
-        verbose_name = 'ImagenDiagnostica'
-        verbose_name_plural = 'ImagenesDianosticas'
-        db_table = 'imagenesdianosticas'
+        verbose_name = 'Diagnosticosexternos'
+        verbose_name_plural = 'Diagnosticosexternos'
+        db_table = 'diagnosticosexternos'
+
+    def __str__(self):
+        return '%s: %s' % (self.fecha_diagnostico, self.descripcion)
 
 
 class Tratamiento(models.Model):
@@ -449,3 +460,26 @@ class Soporte(models.Model):
         verbose_name_plural = 'Soportes'
         db_table = 'soportes'
 
+class Seguimiento(models.Model):
+    tratamiento = models.ForeignKey(Tratamiento, on_delete=models.PROTECT)
+    mensaje_paciente = models.TextField(max_length=200, default='')
+    fecha_msg_paciente = models.DateField(null=True)
+    mensaje_medico = models.TextField(max_length=200, null=True)
+    fecha_msg_medico = models.DateField(null=True)
+    detalle = models.TextField(max_length=200, null=True)
+
+    class Meta:
+        verbose_name = 'Seguimientos'
+        verbose_name_plural = 'Seguimientos'
+        db_table = 'seguimientos'
+
+class ImagenDiagnosticaT(models.Model):
+    seguimiento = models.ForeignKey(Seguimiento, null=True, blank=True, on_delete=models.PROTECT)
+    url = models.TextField(default='')
+    descripcion = models.TextField(default='')
+    fecha_creacion = models.DateField(null=True)
+
+    class Meta:
+        verbose_name = 'ImagenDiagnosticaT'
+        verbose_name_plural = 'ImagenesDianosticasT'
+        db_table = 'imagenesdianosticast'
