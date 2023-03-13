@@ -16,6 +16,7 @@ from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from apps.dermobkend.models import Medico, Paciente
 
 
 class UserLogIn(ObtainAuthToken):
@@ -24,12 +25,17 @@ class UserLogIn(ObtainAuthToken):
                                            context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        identificador: int
+        medico: Medico = Medico.objects.filter(correo=user.email).first()
+        paciente: Paciente = Paciente.objects.filter(correo=user.email).first()
         token = Token.objects.get_or_create(user=user)
-        return Response({
-            'token': token[0].key,
-            'id': user.pk,
-            'username': user.username
-        })
+        if medico:
+            identificador = medico.id
+            fullname = medico.nombres + ' ' + medico.apellidos
+        if paciente:
+            identificador = paciente.id
+            fullname = paciente.nombres + ' ' + paciente.apellidos
+        return Response({'token': token[0].key,'id': identificador,'username': user.email,'fullname': fullname})
 
 
 class Login(FormView):
